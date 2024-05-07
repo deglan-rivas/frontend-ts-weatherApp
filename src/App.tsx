@@ -31,6 +31,7 @@ function App() {
   }
   const [weather, setWeather] = useState<Weather>(initialWeather)
   const [errors, setErrors] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   // const wasLookedFor = useMemo(() => weather.name !== '', [weather])
   // TODO change to hasData and hasErrors
   const hasWeatherData = useMemo(() => !!weather.name, [weather])
@@ -38,6 +39,7 @@ function App() {
   const fetchWeather = async (search: Search): Promise<void> => {
     const apiKey = import.meta.env.VITE_API_KEY
     setErrors('')
+    setIsLoading(true)
 
     try {
       const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&limit=1&appid=${apiKey}`
@@ -66,7 +68,7 @@ function App() {
     } catch (error) {
       console.log(error)
     } finally {
-      console.log("finally")
+      setIsLoading(false)
     }
   }
 
@@ -87,6 +89,7 @@ function App() {
             <WeatherDisplay
               weather={weather}
               errors={errors}
+              isLoading={isLoading}
             />
           )
         }
