@@ -1,10 +1,28 @@
+import { useState } from "react"
 import WeatherDisplay from "./components/WeatherDisplay"
 import WeatherForm from "./components/WeatherForm"
 import { Search } from "./types"
 
 function App() {
-  const fetchWeather = (search: Search): void => {
-    console.log('fetching from weather api', search)
+  const initialWeather: Search = {
+    city: '',
+    country: '',
+  }
+  const [weather, setWeather] = useState<Search>(initialWeather)
+
+  const fetchWeather = async (search: Search): void => {
+    const apiKey = import.meta.env.VITE_API_KEY
+
+    try {
+      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&limit=1&appid=${apiKey}`
+      const result = await fetch(geoUrl)
+      const data = await result.json()
+      console.log(data)
+    } catch (error) {
+      console.log("error")
+    } finally {
+      console.log("finally")
+    }
   }
 
   return (
