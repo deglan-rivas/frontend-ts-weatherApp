@@ -1,4 +1,5 @@
-import WeatherForm from "./components/weatherForm"
+import WeatherDisplay from "./components/WeatherDisplay"
+import WeatherForm from "./components/WeatherForm"
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
 
       <div className="grid grid-cols-2">
         <WeatherForm />
+        <WeatherDisplay />
       </div>
     </div>
   )
