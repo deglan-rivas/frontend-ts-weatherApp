@@ -1,4 +1,5 @@
 import type { Weather } from "../App"
+import { convertKelvinToCelsius } from "../utils"
 
 interface WeatherDisplayProps {
   weather: Weather
@@ -11,19 +12,19 @@ export default function WeatherDisplay({ weather }: WeatherDisplayProps) {
         Clima de {weather.name}
       </p>
       <p className="font-bold text-7xl text-center">
-        {weather.main.temp}&deg;C
+        {convertKelvinToCelsius(weather.main.temp)}&deg;C
       </p>
       <div className="flex justify-center gap-10">
         <p className="font-semibold text-xl">
           Min:
           <span className="font-normal">
-            {weather.main.temp_min}&deg;C
+            {convertKelvinToCelsius(weather.main.temp_min)}&deg;C
           </span>
         </p>
         <p className="font-semibold text-xl">
-          {weather.main.temp_max}:
+          Max:
           <span className="font-normal">
-            10&deg;C
+            {convertKelvinToCelsius(weather.main.temp_max)}&deg;C
           </span>
         </p>
       </div>
