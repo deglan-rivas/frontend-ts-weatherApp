@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { countries } from "../data/countries";
 import { Search } from "../types";
+import Error from "./Error";
 
 interface WeatherFormProps {
   fetchWeather: (search: Search) => void
@@ -12,6 +13,7 @@ export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
     country: '',
   }
   const [search, setSearch] = useState<Search>(initialSearch)
+  const [error, setError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => (
     setSearch({ ...search, [e.target.name]: e.target.value })
@@ -19,7 +21,12 @@ export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (Object.values(search).includes('')) {
+      setError('Todos los campos son obligatorios')
+      return
+    }
 
+    setError('')
     fetchWeather(search)
   }
 
@@ -27,6 +34,7 @@ export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
     <form className="px-5 col-span-2 md:col-span-1 py-4 space-y-5"
       onSubmit={e => handleSubmit(e)}
     >
+      {!!error && <Error>{error}</Error>}
       <div className="space-y-4">
         <label
           htmlFor="city"
@@ -41,6 +49,7 @@ export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
           className="w-full px-2 py-2 bg-transparent border-2 text-white border-white rounded-md placeholder:text-gray-400"
           placeholder="Ciudad"
           onChange={e => handleChange(e)}
+          value={search.city}
         />
       </div>
 
@@ -56,6 +65,7 @@ export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
           id="country"
           className="w-full bg-transparent border-2 border-white rounded-md text-white py-2 px-2"
           onChange={e => handleChange(e)}
+          value={search.country}
         >
           <option value="" disabled className="bg-black">-- Seleccione un País --</option>
           {
@@ -75,7 +85,7 @@ export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
       <input
         type="submit"
         value="Consultar Clima"
-        className="w-full py-2 bg-orange-500 text-white font-semibold uppercase rounded-md"
+        className="w-full py-2 bg-orange-500 text-white font-semibold uppercase rounded-md cursor-pointer hover:bg-orange-600"
       />
     </form>
   )
