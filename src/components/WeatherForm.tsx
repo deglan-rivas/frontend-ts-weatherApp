@@ -1,10 +1,32 @@
+import { useState } from "react";
 import { countries } from "../data/countries";
+import { Search } from "../types";
 
+interface WeatherFormProps {
+  fetchWeather: (search: Search) => void
+}
 
-export default function WeatherForm() {
+export default function WeatherForm({ fetchWeather }: WeatherFormProps) {
+  const initialSearch: Search = {
+    city: '',
+    country: '',
+  }
+  const [search, setSearch] = useState<Search>(initialSearch)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => (
+    setSearch({ ...search, [e.target.name]: e.target.value })
+  )
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    fetchWeather(search)
+  }
 
   return (
-    <form className="px-5 col-span-2 md:col-span-1 py-4 space-y-5">
+    <form className="px-5 col-span-2 md:col-span-1 py-4 space-y-5"
+      onSubmit={e => handleSubmit(e)}
+    >
       <div className="space-y-4">
         <label
           htmlFor="city"
@@ -18,6 +40,7 @@ export default function WeatherForm() {
           type="text"
           className="w-full px-2 py-2 bg-transparent border-2 text-white border-white rounded-md placeholder:text-gray-400"
           placeholder="Ciudad"
+          onChange={e => handleChange(e)}
         />
       </div>
 
@@ -32,6 +55,7 @@ export default function WeatherForm() {
           name="country"
           id="country"
           className="w-full bg-transparent border-2 border-white rounded-md text-white py-2 px-2"
+          onChange={e => handleChange(e)}
         >
           <option value="" disabled className="bg-black">-- Seleccione un País --</option>
           {

@@ -1,7 +1,11 @@
 import WeatherDisplay from "./components/WeatherDisplay"
 import WeatherForm from "./components/WeatherForm"
+import { Search } from "./types"
 
 function App() {
+  const fetchWeather = (search: Search): void => {
+    console.log('fetching from weather api', search)
+  }
 
   return (
     <div className="min-h-screen bg-[url(/bg_clima.jpg)]">
@@ -12,7 +16,9 @@ function App() {
       </div>
 
       <div className="grid grid-cols-2">
-        <WeatherForm />
+        <WeatherForm
+          fetchWeather={fetchWeather}
+        />
         <WeatherDisplay />
       </div>
     </div>
