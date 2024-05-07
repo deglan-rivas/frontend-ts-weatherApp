@@ -1,11 +1,14 @@
+
 function App() {
 
   return (
-    <>
-      <h1 className="bg-red-400">
-        ga
-      </h1>
-    </>
+    <div className="min-h-screen bg-[url(/bg_clima.jpg)]">
+      <div className="container mx-auto">
+        <h1 className="font-semibold py-10 text-3xl text-white text-center">
+          Buscador de Clima
+        </h1>
+      </div>
+    </div>
   )
 }
 
