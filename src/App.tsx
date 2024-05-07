@@ -18,7 +18,7 @@ const WeatherSchema = z.object({
     temp_min: z.number(),
   }),
 })
-type Weather = z.infer<typeof WeatherSchema>
+export type Weather = z.infer<typeof WeatherSchema>
 
 function App() {
   const initialWeather: Weather = {
@@ -79,7 +79,9 @@ function App() {
         <WeatherForm
           fetchWeather={fetchWeather}
         />
-        <WeatherDisplay />
+        <WeatherDisplay
+          weather={weather}
+        />
       </div>
     </div>
   )
