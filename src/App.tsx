@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { z } from "zod"
 import WeatherDisplay from "./components/WeatherDisplay"
 import WeatherForm from "./components/WeatherForm"
@@ -31,6 +31,8 @@ function App() {
   }
   const [weather, setWeather] = useState<Weather>(initialWeather)
   const [errors, setErrors] = useState('')
+  // const wasLookedFor = useMemo(() => weather.name !== '', [weather])
+  const isInitialState = useMemo(() => !weather.name, [weather])
 
   const fetchWeather = async (search: Search): void => {
     const apiKey = import.meta.env.VITE_API_KEY
@@ -79,9 +81,13 @@ function App() {
         <WeatherForm
           fetchWeather={fetchWeather}
         />
-        <WeatherDisplay
-          weather={weather}
-        />
+        {
+          !isInitialState && (
+            <WeatherDisplay
+              weather={weather}
+            />
+          )
+        }
       </div>
     </div>
   )
