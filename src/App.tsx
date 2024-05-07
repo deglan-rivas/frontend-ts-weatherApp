@@ -32,9 +32,10 @@ function App() {
   const [weather, setWeather] = useState<Weather>(initialWeather)
   const [errors, setErrors] = useState('')
   // const wasLookedFor = useMemo(() => weather.name !== '', [weather])
-  const isInitialState = useMemo(() => !weather.name, [weather])
+  // TODO change to hasData and hasErrors
+  const hasWeatherData = useMemo(() => !!weather.name, [weather])
 
-  const fetchWeather = async (search: Search): void => {
+  const fetchWeather = async (search: Search): Promise<void> => {
     const apiKey = import.meta.env.VITE_API_KEY
     setErrors('')
 
@@ -82,9 +83,10 @@ function App() {
           fetchWeather={fetchWeather}
         />
         {
-          !isInitialState && (
+          (hasWeatherData || errors) && (
             <WeatherDisplay
               weather={weather}
+              errors={errors}
             />
           )
         }
